@@ -34,8 +34,8 @@ class LogindoubanSpider(scrapy.Spider):
         postdata = {
             'source': 'None',
             'redir': 'https://www.douban.com/people/71210780/',
-            'form_email': '992621968@qq.com',
-            'form_password': 'william072424',
+            'form_email': '******@qq.com',
+            'form_password': '*********',
             'captcha - solution': captcha_solution,
             'captcha - id': captcha_id,
             'login': keyword,
