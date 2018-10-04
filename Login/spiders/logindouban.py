@@ -2,6 +2,7 @@
 import scrapy
 import requests
 import  urllib.request
+from PIL import Image
 
 
 class LogindoubanSpider(scrapy.Spider):
@@ -11,8 +12,7 @@ class LogindoubanSpider(scrapy.Spider):
 
     def start_requests(self):
         url='https://accounts.douban.com/login'
-        keyword = urllib.parse.quote('登录')
-        print('sfdfegregr',keyword)
+     
         yield  scrapy.Request(url=url,callback=self.parse)
 
 
@@ -27,18 +27,21 @@ class LogindoubanSpider(scrapy.Spider):
         res=requests.get(imagurl)
         with open("yanzhengma.jpg",'wb') as f:
             f.write(res.content)
-        captcha_id=imag.re('id=(.*?)&')#.split('?')[1].split('&')[0]
+        im = Image.open('yanzhengma.jpg')
+        im.show()
+        
+        captcha_id=imag.re('id=(.*?)&')[0]#.split('?')[1].split('&')[0]
         captcha_solution=input()
         url = 'https://accounts.douban.com/login'
-        keyword=urllib.parse.quote('登录')
+        
         postdata = {
             'source': 'None',
             'redir': 'https://www.douban.com/people/71210780/',
             'form_email': '******@qq.com',
             'form_password': '*********',
-            'captcha - solution': captcha_solution,
-            'captcha - id': captcha_id,
-            'login': keyword,
+            'captcha-solution': captcha_solution,
+            'captcha-id': captcha_id,
+            'login': '登录',
         }
         yield scrapy.FormRequest(url=url,formdata=postdata,callback=self.after_login,dont_filter=True)
 
